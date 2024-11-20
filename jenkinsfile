@@ -1,0 +1,41 @@
+pipeline{
+    agent any
+    environment{
+        PATH="/opt/maven/bin/:$PATH"
+        DOCKERHUB_CREDENTIALS = credentials("docker-credentials")
+    }
+    stages{
+        stage("Git clone"){
+                steps{
+                    git '<url>'
+                }
+            }
+        stage("docker login"){
+            sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+        }
+        stage("Docker build"){
+            steps{
+                sh "docker build -t myApp:latest ."
+            }
+        }
+        stage("Docker tag"){
+            steps{
+                sh "docker tag myApp:latest <dockerhub repo>"
+            }
+        }
+        stage("Docker push"){
+            steps{
+                sh "docker push <dockerhub repo>"
+            }
+        }
+        stage("Deploy"){
+            steps{
+                script{
+                    KubernetesDeploy(configs: "deployment.yaml")
+                }
+        }
+        stage("Show port"){
+            print "Port of react app:"
+            sh "kubectl get svc"
+        }
+}
