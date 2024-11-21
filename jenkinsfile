@@ -10,6 +10,17 @@ pipeline {
                 sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
             }
         }
+        stage("AWS EKS Authentication"){
+            steps{
+                script{
+                    sh '''
+                    aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+                    aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+                    aws configure set region ap-south-1
+                    aws eks update-kubeconfig --name my-cluster-eks --region ap-south-1
+                '''
+            }
+        }
         stage("Docker Build") {
             steps {
                 sh "docker build -t myapp:latest ."
