@@ -12,12 +12,12 @@ pipeline {
         }
         stage("Docker Build") {
             steps {
-                sh "docker build -t myApp:latest ."
+                sh "docker build -t myapp:latest ."
             }
         }
         stage("Docker Tag") {
             steps {
-                sh "docker tag myApp:latest zerotwo0938/capstone_react"
+                sh "docker tag myapp:latest zerotwo0938/capstone_react"
             }
         }
         stage("Docker Push") {
