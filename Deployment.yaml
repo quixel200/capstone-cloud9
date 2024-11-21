@@ -1,13 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment #The name of the Kubernetes 
-        #Deployment to be created in the Kubernetes cluster
+  name: react-app-deployment
   labels:
     app: react-app
 spec:
-  replicas: 2 #The number of pods to be created in the 
-   #Kubernetes cluster for the React.js application container
+  replicas: 2
   selector:
     matchLabels:
       app: react-app
@@ -17,21 +15,20 @@ spec:
         app: react-app 
     spec:
       containers:
-      - name: react-app #The name of the react.js application container
-        #The Docker image for building the React.js application container
+      - name: react-app
         image: zerotwo0938/capstone_react:latest
         ports:
-        - containerPort: 3000 #The port for the React.js application container
+        - containerPort: 3000
+---
+apiVersion: v1
 kind: Service
 metadata:
-  #The name of the Kubernetes Service to be created 
-  #in the Kubernetes cluster
-  name: service 
+  name: react-app-service
 spec:
   selector:
     app: react-app 
-  type: LoadBalancer #Type of the Kubernetes Service
+  type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 3000 #Service port
-    targetPort: 3000 #The port for the React.js application container
+    port: 3000
+    targetPort: 3000
