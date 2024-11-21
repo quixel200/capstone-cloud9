@@ -27,7 +27,7 @@ pipeline {
         }
         stage("Deploy") {
             steps {
-                sh "kubectl apply -f . --validate=false"
+                sh "kubectl apply -f ."
             }
         }
         stage("Show Port") {
