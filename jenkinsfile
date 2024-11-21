@@ -2,14 +2,9 @@ pipeline{
     agent any
     environment{
         PATH="/opt/maven/bin/:$PATH"
-        DOCKERHUB_CREDENTIALS = credentials("docker-credentials")
+        DOCKERHUB_CREDENTIALS = credentials("Docker-Credentials")
     }
     stages{
-        stage("Git clone"){
-                steps{
-                    git '<url>'
-                }
-            }
         stage("docker login"){
             sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
         }
@@ -20,12 +15,12 @@ pipeline{
         }
         stage("Docker tag"){
             steps{
-                sh "docker tag myApp:latest <dockerhub repo>"
+                sh "docker tag myApp:latest zerotwo0938/capstone_react"
             }
         }
         stage("Docker push"){
             steps{
-                sh "docker push <dockerhub repo>"
+                sh "docker push zerotwo0938/capstone_react"
             }
         }
         stage("Deploy"){
