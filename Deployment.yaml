@@ -19,7 +19,7 @@ spec:
       containers:
       - name: react-app #The name of the react.js application container
         #The Docker image for building the React.js application container
-        image: <change> 
+        image: zerotwo0938/capstone_react:latest
         ports:
         - containerPort: 3000 #The port for the React.js application container
 kind: Service
