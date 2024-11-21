@@ -10,10 +10,10 @@ echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
 echo "[+] updating packages..."
 apt-get update -y
 echo "[+]installing dependancies..."
-apt-get install fontconfig unzip openjdk-17-jre -y
+apt-get install fontconfig unzip openjdk-17-jre docker.io -y
 echo "[+]installing jenkins..."
 apt-get install jenkins -y
-echo "[*]installation successful!"
+echo "[+]installation successful!"
 echo "[+]installing aws-cli"
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
@@ -30,5 +30,7 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 # CHANGE NAME OF CLUSTER
 aws eks update-kubeconfig --region ap-south-1 --name my-cluster
 aws sts get-caller-identity
-echo "[*]Jenkins Admin password:"
+usermod -a -G docker jenkins
+chmod 666 /var/run/docker.sock
+echo "[+]Jenkins Admin password:"
 cat /var/lib/jenkins/secrets/initialAdminPassword
