@@ -27,9 +27,7 @@ pipeline {
         }
         stage("Deploy") {
             steps {
-                script {
-                    KubernetesDeploy(configs: "deployment.yaml")
-                }
+                sh "kubectl apply -f deployment.yaml"
             }
         }
         stage("Show Port") {
